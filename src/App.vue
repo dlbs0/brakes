@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { computed, ref, watch, watchEffect } from 'vue'
-import { useDevicesList, useUserMedia, watchThrottled } from '@vueuse/core'
+import { refThrottled, useDevicesList, useUserMedia, watchThrottled } from '@vueuse/core'
 
 const currentCamera = ref<string>()
 const { videoInputs: cameras } = useDevicesList({
@@ -33,12 +33,13 @@ const {
 } = useDeviceMotion()
 
 // const stopNow = ref(false);
-const stillVal = 8
+const stillVal = 4
 
 const stopNow = computed(() => {
   if(!acceleration.value) return false
   return (((acceleration.value?.x ?? 0) > stillVal) || ((acceleration.value?.y ?? 0) > stillVal) || ((acceleration.value?.z ?? 0 )> stillVal))
 })
+const throttled = refThrottled(stopNow, 4000)
 
 // watchThrottled(acceleration, (v) => {
 //   if(v && ((v?.x ?? 0 > 4) || (v?.y ?? 0 > 4) || (v?.z ?? 0 > 4))) {
@@ -50,7 +51,7 @@ const stopNow = computed(() => {
 
 <template>
   <h1>hello</h1>
-  <h1 style="color: red; font-size: 4rem;" v-if="stopNow">Brake</h1>
+  <h1 style="color: red; font-size: 4rem;" v-if="throttled">Brake</h1>
 
   {{acceleration?.x}}
   {{acceleration?.y}}
