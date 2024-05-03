@@ -33,10 +33,11 @@ const {
 } = useDeviceMotion()
 
 // const stopNow = ref(false);
+const stillVal = 8
 
 const stopNow = computed(() => {
-  if(!acceleration.value) return true
-  return ((acceleration.value?.x ?? 0 > 4) || (acceleration.value?.y ?? 0 > 4) || (acceleration.value?.z ?? 0 > 4))
+  if(!acceleration.value) return false
+  return (((acceleration.value?.x ?? 0) > stillVal) || ((acceleration.value?.y ?? 0) > stillVal) || ((acceleration.value?.z ?? 0 )> stillVal))
 })
 
 // watchThrottled(acceleration, (v) => {
@@ -63,9 +64,21 @@ const stopNow = computed(() => {
 
     
     <div>
-      <video ref="video" muted autoplay controls class="h-100 w-auto" />
+      <video ref="video" muted autoplay controls class="h-100 w-auto vid" />
     </div>
   </div>
 </template>
 
+
+<style scoped>
+.vid{
+  max-width: 100%;
+  height: 100vh;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: -1;
+}
+
+</style>
 
