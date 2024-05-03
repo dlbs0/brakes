@@ -35,6 +35,7 @@ const {
 watch(acceleration, (v) => {
   if(v && ((v?.x ?? 0 > 0.1) || (v?.y ?? 0 > 0.1) || (v?.z ?? 0 > 0.1))) {
     console.log('acceleration', v)
+    window.alert("brake");
   }
 })
 </script>
