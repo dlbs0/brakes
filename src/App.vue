@@ -33,11 +33,11 @@ const {
 } = useDeviceMotion()
 
 // const stopNow = ref(false);
-const stillVal = 4
+const stillVal = 2
 
 const stopNow = computed(() => {
   if(!acceleration.value) return false
-  return (((acceleration.value?.x ?? 0) > stillVal) || ((acceleration.value?.y ?? 0) > stillVal) || ((acceleration.value?.z ?? 0 )> stillVal))
+  return ((Math.abs(acceleration.value?.x ?? 0) > stillVal) || (Math.abs(acceleration.value?.y ?? 0) > stillVal) || (Math.abs(acceleration.value?.z ?? 0 )> stillVal))
 })
 const throttled = refThrottled(stopNow, 4000)
 
@@ -53,9 +53,9 @@ const throttled = refThrottled(stopNow, 4000)
   <h1>hello</h1>
   <h1 style="color: red; font-size: 4rem;" v-if="throttled">Brake</h1>
 
-  {{acceleration?.x}}
-  {{acceleration?.y}}
-  {{acceleration?.z}}
+  {{(acceleration?.x?.toFixed(2))}}<br>
+  {{acceleration?.y?.toFixed(2)}}<br>
+  {{acceleration?.z?.toFixed(2)}}<br>
   <div class="flex flex-col gap-4 text-center">
     <div>
       <button @click="enabled = !enabled">
