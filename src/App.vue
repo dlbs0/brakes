@@ -39,7 +39,7 @@ const stopNow = computed(() => {
   if(!acceleration.value) return false
   return ((Math.abs(acceleration.value?.x ?? 0) > stillVal) || (Math.abs(acceleration.value?.y ?? 0) > stillVal) || (Math.abs(acceleration.value?.z ?? 0 )> stillVal))
 })
-const throttled = refThrottled(stopNow, 4000)
+const throttled = refThrottled(stopNow, 2000, true , true)
 
 // watchThrottled(acceleration, (v) => {
 //   if(v && ((v?.x ?? 0 > 4) || (v?.y ?? 0 > 4) || (v?.z ?? 0 > 4))) {
