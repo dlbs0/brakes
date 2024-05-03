@@ -42,6 +42,7 @@ watchThrottled(acceleration, (v) => {
 
 <template>
   <h1>hello</h1>
+  {{acceleration}}
   <div class="flex flex-col gap-4 text-center">
     <div>
       <button @click="enabled = !enabled">
