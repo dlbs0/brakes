@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { computed, ref, watch, watchEffect } from 'vue'
-import { refThrottled, useDevicesList, useUserMedia, watchThrottled } from '@vueuse/core'
+import { computed, onMounted, ref,  watchEffect } from 'vue'
+import { refThrottled, useDevicesList, useUserMedia, useDeviceMotion } from '@vueuse/core'
 
 const currentCamera = ref<string>()
 const { videoInputs: cameras } = useDevicesList({
@@ -23,8 +23,6 @@ watchEffect(() => {
 })
 
 
-import { useDeviceMotion } from '@vueuse/core'
-
 const {
   acceleration,
   accelerationIncludingGravity,
@@ -32,7 +30,6 @@ const {
   interval,
 } = useDeviceMotion()
 
-// const stopNow = ref(false);
 const stillVal = 2
 
 const stopNow = computed(() => {
@@ -41,18 +38,15 @@ const stopNow = computed(() => {
 })
 const throttled = refThrottled(stopNow, 2000, true , true)
 
-// watchThrottled(acceleration, (v) => {
-//   if(v && ((v?.x ?? 0 > 4) || (v?.y ?? 0 > 4) || (v?.z ?? 0 > 4))) {
-//     console.log('acceleration', v)
-//     window.alert("brake");
-//   }
-// },{ throttle: 2000 },)
+onMounted(() => {
+  enabled.value = true
+})
 </script>
 
 <template>
-  <h1>hello</h1>
+  <h1>Very helpful app</h1>
   <h1 style="color: red; font-size: 4rem;" v-if="throttled">Brake</h1>
-  <h1 style="color: red; font-size: 4rem;" v-if="stopNow">Stop</h1>
+  <h1 style="color: red; font-size: 4rem;" v-if="stopNow">Slow Down</h1>
 
   {{(acceleration?.x?.toFixed(2))}}<br>
   {{acceleration?.y?.toFixed(2)}}<br>
@@ -60,7 +54,7 @@ const throttled = refThrottled(stopNow, 2000, true , true)
   <div class="flex flex-col gap-4 text-center">
     <div>
       <button @click="enabled = !enabled">
-        {{ enabled ? 'Stop' : 'Start' }}
+        {{ enabled ? 'Stop Video' : 'Start Video' }}
       </button>
     </div>
 
@@ -80,6 +74,8 @@ const throttled = refThrottled(stopNow, 2000, true , true)
   top:0;
   left:0;
   z-index: -1;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 
 </style>
