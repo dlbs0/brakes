@@ -52,6 +52,7 @@ const throttled = refThrottled(stopNow, 4000)
 <template>
   <h1>hello</h1>
   <h1 style="color: red; font-size: 4rem;" v-if="throttled">Brake</h1>
+  <h1 style="color: red; font-size: 4rem;" v-if="stopNow">Stop</h1>
 
   {{(acceleration?.x?.toFixed(2))}}<br>
   {{acceleration?.y?.toFixed(2)}}<br>
